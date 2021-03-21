@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from '../App.vue'
+import MyPasses from '../views/MyPasses.vue'
 
 Vue.use(VueRouter)
 
@@ -10,6 +11,10 @@ const routes = [
     name: 'App',
     component: App
   },
+  {
+    path: '/mypasses',
+    component: MyPasses
+  }
 ]
 
 const router = new VueRouter({

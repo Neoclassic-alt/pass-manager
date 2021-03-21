@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app elevation="2">
-    <v-toolbar-title>Taina</v-toolbar-title>
+    <v-toolbar-title>Melon</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-avatar>
       <v-img src="../resources/noavatar.jpg"></v-img>
