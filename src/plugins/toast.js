@@ -4,7 +4,10 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 const options = {
-    // You can set your default options here
+    transition: "Vue-Toastification__fade",
+    maxToasts: 5,
 };
 
 Vue.use(Toast, options);
+
+export default {}
