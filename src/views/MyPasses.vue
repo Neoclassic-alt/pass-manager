@@ -13,11 +13,20 @@
       <v-tabs
       background-color="transparent"
       color="#ED1C24"
-      style="width:0"
+      style="width: 200px"
       >
         <v-tabs-slider color="#ED1C24"></v-tabs-slider>
-        <v-tab>по дате</v-tab>
-        <v-tab>по названию</v-tab>
+        <v-tab @click="toggleSortingDate">по дате 
+          <sort-icons 
+            :sorting="sorting_by === 'date'"
+            :ascending="ascending"
+          /></v-tab>
+        <v-tab @click="toggleSortingName">по названию
+          <sort-icons 
+            :sorting="sorting_by === 'name'"
+            :ascending="ascending"
+          />
+        </v-tab>
       </v-tabs>
     </v-app-bar>
     <pass-board 
@@ -39,19 +48,45 @@
 
 <script>
 import PassBoard from "../components/PassBoard.vue"
+import SortIcons from "../components/SortIcons.vue"
 import { mapState } from 'vuex'
+
 export default {
   components: {
-    PassBoard
+    PassBoard,
+    SortIcons
   },
   data() {
     return {
       sorting_by: "date", // "date", "name"
+      ascending: true
     }
   },
   computed: mapState(['passwords_info']),
+  methods: {
+    toggleSortingDate: function(){
+      if (this.sorting_by == "date"){
+        this.ascending = !this.ascending
+      } else {
+        this.sorting_by = "date"
+        this.ascending = true
+      }
+      this.$store.commit("sort_passes", {sorted_by: "date", ascending: this.ascending})
+    },
+    toggleSortingName: function(){
+      if (this.sorting_by == "name"){
+        this.ascending = !this.ascending
+      } else {
+        this.sorting_by = "name"
+        this.ascending = true
+      }
+      this.$store.commit("sort_passes", {sorted_by: "name", ascending: this.ascending})
+    }
+  },
   mounted(){
-    this.$store.dispatch('get_passwords')
+    this.$store.dispatch('get_passwords').then(() => {
+      this.$store.commit("sort_passes", {sorted_by: "date", ascending: this.ascending})
+    })
   }
 }
 </script>

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import App from '../App.vue'
+import MainPage from '../views/MainPage.vue'
 import MyPasses from '../views/MyPasses.vue'
 import PassEdit from '../views/PassEditNew.vue'
 import PassAdd from '../views/PassAdd.vue'
@@ -11,8 +11,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'App',
-    component: App
+    component: MainPage
   },
   {
     path: '/mypasses',

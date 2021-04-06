@@ -9,7 +9,7 @@
             <v-row v-if="pass_info !== undefined"><!-- Показываем только когда данные получены -->
                 <v-col cols="6">
                     <v-card-title>{{pass_info.name}}</v-card-title>
-                    <v-card-subtitle>Дата последнего редактирования: {{pass_info.date}}</v-card-subtitle>
+                    <v-card-subtitle>Дата последнего редактирования: {{pass_info.date}} ({{difference}})</v-card-subtitle>
                     <v-card-text>{{pass_info.text}}</v-card-text>
                 </v-col>
                 <v-col cols="3">
@@ -99,7 +99,7 @@ export default {
     },
     computed: {
         star: function (){
-            let length = this.pass_info.password.length
+            const length = this.pass_info.password.length
             let stars = ""
             for (let i = 0; i < length; i++){
                 stars += "*"
@@ -108,7 +108,24 @@ export default {
         },
         currtext: function(){
             return this.ishovered ? this.pass_info.password : this.star
-        }
+        },
+        difference: function(){
+            const now = new Date()
+            let new_date = this.pass_info.date.split('.')
+            new_date = new_date[1] + "-" + new_date[0] + "-" + new_date[2]
+            new_date = new Date(new_date)
+            const diff = Math.floor((now - new_date)/1000/60/60/24)
+            if (diff == 0){
+                return "сегодня"
+            }
+            if (diff == 1){
+                return "вчера"
+            }
+            if (diff > 1){
+                return `${diff} ${this.declOfNum(diff, ['день', 'дня', 'дней'])} назад`
+            }
+            return 0
+        },
     },
     methods: {
         toggleHover: function(){
@@ -118,8 +135,8 @@ export default {
             }, 1000);
         },
         copy: function(event){
-            let target = event.target;
-            let text = target.closest('div').querySelector('input');
+            const target = event.target;
+            const text = target.closest('div').querySelector('input');
             text.select();
             document.execCommand("copy");
             this.$toast.info("Пароль скопирован", {
@@ -130,8 +147,13 @@ export default {
             this.dialog = false
             this.$store.dispatch("delete_password", this.pass_info.id)
             this.$toast.success("Удаление прошло успешно!")
-        }
-    }
+        },
+        declOfNum: function(number, titles) { 
+            // позволяет узнать правильное наклонение 
+            const cases = [2, 0, 1, 1, 1, 2];  
+            return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];  
+        },
+    },
 }
 </script>
 

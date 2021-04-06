@@ -45,6 +45,41 @@ export default new Vuex.Store({
     },
     throw_error(state){
       state.success = false
+    },
+    sort_passes(state, payload){
+      let new_state = state.passwords_info.slice()
+      if (payload.sorted_by === "name"){
+        if (payload.ascending){
+          new_state.sort(function(a, b) {
+            if (a.name < b.name){ return 1; }
+            if (a.name === b.name){ return 0; }
+            if (a.name > b.name){ return -1; }
+            return 0
+          })
+        } else {
+          new_state.sort(function(a, b) {
+            if (a.name < b.name){ return -1; }
+            if (a.name === b.name){ return 0; }
+            if (a.name > b.name){ return 1; }
+            return 0
+          })
+        } 
+      }
+      if (payload.sorted_by === "date"){
+        new_state.sort(function (a, b) {
+          function getDate(date){
+            let new_date = date.split('.')
+            new_date = new_date[1] + "-" + new_date[0] + "-" + new_date[2]
+            return new Date(new_date)
+          }
+          if (payload.ascending){
+            return getDate(b.date) - getDate(a.date)
+          } else {
+            return getDate(a.date) - getDate(b.date)
+          }
+        })
+      }
+      state.passwords_info = new_state.slice()
     }
   },
   actions: {

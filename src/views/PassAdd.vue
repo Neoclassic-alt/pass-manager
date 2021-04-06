@@ -20,16 +20,10 @@ export default {
     }
   },
   methods: {
-    getDate: function(){
-      const date = new Date()
-      const day = date.getDate().toString().padStart(2, '0')
-      const month = (date.getMonth() + 1).toString().padStart(2, '0')
-      return `${day}.${month}.${date.getFullYear()}`
-    },
     addPass: function(info){
       let new_pass = {...info}
       new_pass.id = this.newID
-      new_pass.date = this.getDate()
+      new_pass.date = new Date().toLocaleDateString("ru")
       this.$store.dispatch("add_password", new_pass).then(() => {
         if (this.$store.state.success){
           this.$toast.success("Пароль добавлен!")
