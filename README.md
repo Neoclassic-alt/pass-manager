@@ -22,3 +22,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+Примечание: для корректной работы сервера необходимо установить json-server (https://github.com/typicode/json-server) и запустить сервер командой
+```
+npm run watch
+```
